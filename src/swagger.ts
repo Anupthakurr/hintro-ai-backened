@@ -5,12 +5,12 @@ import { config } from './config/env';
 // In production (compiled JS in dist/), __dirname is e.g. /app/dist
 // In development (ts-node from src/), __dirname is e.g. /app/src
 // We resolve relative to the project root in both cases.
-// Dynamically detect if we are running the compiled JS or the TS source
-const ext = __filename.endsWith('.ts') ? 'ts' : 'js';
+const isCompiled = __filename.endsWith('.js');
+const basePath = isCompiled ? './dist' : './src';
+const ext = isCompiled ? 'js' : 'ts';
 
-// Force forward slashes for glob patterns so it works correctly on Windows
-const modulesGlob = path.join(__dirname, `modules/**/*.routes.${ext}`).replace(/\\/g, '/');
-const appFile = path.join(__dirname, `app.${ext}`).replace(/\\/g, '/');
+const modulesGlob = `${basePath}/modules/**/*.routes.${ext}`;
+const appFile = `${basePath}/app.${ext}`;
 
 const options: swaggerJsdoc.Options = {
   definition: {
