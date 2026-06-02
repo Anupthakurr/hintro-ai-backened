@@ -25,10 +25,12 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [
       {
-        // Relative URL: swagger-ui will always call the same host serving this page.
-        // Works on localhost:3000 AND on https://hintro-ai-backened.onrender.com
-        url: '/',
-        description: 'Current server',
+        url: 'https://hintro-ai-backened.onrender.com',
+        description: 'Production server',
+      },
+      {
+        url: `http://localhost:${config.port}`,
+        description: 'Local development',
       },
     ],
     components: {
