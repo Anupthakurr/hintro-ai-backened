@@ -1,5 +1,14 @@
 import swaggerJsdoc from 'swagger-jsdoc';
+import path from 'path';
 import { config } from './config/env';
+
+// In production (compiled JS in dist/), __dirname is e.g. /app/dist
+// In development (ts-node from src/), __dirname is e.g. /app/src
+// We resolve relative to the project root in both cases.
+const isProduction = process.env.NODE_ENV === 'production';
+const ext = isProduction ? 'js' : 'ts';
+const modulesGlob = path.join(__dirname, `modules/**/*.routes.${ext}`);
+const appFile = path.join(__dirname, `app.${ext}`);
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -41,7 +50,7 @@ const options: swaggerJsdoc.Options = {
       { name: 'System', description: 'Health check and evaluation metadata' },
     ],
   },
-  apis: ['./src/modules/**/*.routes.ts', './src/app.ts'],
+  apis: [modulesGlob, appFile],
 };
 
 export const swaggerSpec = swaggerJsdoc(options);

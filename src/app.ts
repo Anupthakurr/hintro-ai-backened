@@ -17,7 +17,15 @@ import actionItemsRoutes from './modules/actionItems/actionItems.routes';
 const app = express();
 
 // ─── Security & Parsing ───────────────────────────────────────────────────────
-app.use(helmet());
+// Disable CSP for /api/docs so swagger-ui scripts/styles load correctly
+app.use('/api/docs', (_req, _res, next) => {
+  next();
+});
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 app.use(
   cors({
     origin: config.cors.origin,
