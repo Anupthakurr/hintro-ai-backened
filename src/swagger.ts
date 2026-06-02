@@ -5,8 +5,8 @@ import { config } from './config/env';
 // In production (compiled JS in dist/), __dirname is e.g. /app/dist
 // In development (ts-node from src/), __dirname is e.g. /app/src
 // We resolve relative to the project root in both cases.
-const isProduction = process.env.NODE_ENV === 'production';
-const ext = isProduction ? 'js' : 'ts';
+// Dynamically detect if we are running the compiled JS or the TS source
+const ext = __filename.endsWith('.ts') ? 'ts' : 'js';
 
 // Force forward slashes for glob patterns so it works correctly on Windows
 const modulesGlob = path.join(__dirname, `modules/**/*.routes.${ext}`).replace(/\\/g, '/');
