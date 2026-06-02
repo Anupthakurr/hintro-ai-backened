@@ -7,8 +7,10 @@ import { config } from './config/env';
 // We resolve relative to the project root in both cases.
 const isProduction = process.env.NODE_ENV === 'production';
 const ext = isProduction ? 'js' : 'ts';
-const modulesGlob = path.join(__dirname, `modules/**/*.routes.${ext}`);
-const appFile = path.join(__dirname, `app.${ext}`);
+
+// Force forward slashes for glob patterns so it works correctly on Windows
+const modulesGlob = path.join(__dirname, `modules/**/*.routes.${ext}`).replace(/\\/g, '/');
+const appFile = path.join(__dirname, `app.${ext}`).replace(/\\/g, '/');
 
 const options: swaggerJsdoc.Options = {
   definition: {
